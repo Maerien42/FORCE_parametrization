@@ -2,6 +2,10 @@
 
 ## Create a harmonized Sentinel-2 and Landsat database
 
+Disclaimer 1: Examples are mixed between several study areas
+
+Disclaimer 2. The uploaded paramterfiles might be slightly outdated, please compare them with the newest version.
+
 ## Preparatory work
 * Create DEM:
 * Create vectorfile of study area (e.g. Shapefile), best option to use geographic coordinates (EPSG: 4326)
@@ -13,9 +17,7 @@ Follow the intro here:  https://force-eo.readthedocs.io/en/latest/howto/dem.html
     * Download tiles
     * build text file containing list of images
     * gdalbuildvrt -input_file_list srtm.txt srtm.vrt
-    
-Disclaimer 1: Examples are mixed between Spain and Brandenburg
-Disclaimer 2. The uploaded paramterfiles might be slightly outdated, please compare them with the newest version.
+   
     
 ## Create Landsat database
 
@@ -37,9 +39,21 @@ Follow the intro here: https://force-eo.readthedocs.io/en/latest/components/auxi
 
     force-parameter /data/force/param/l2ps.prm LEVEL2
     
+Example can be found in ``prm`` folder
     
 ### Run level-2 module
 
 
+### Create tile list
+
+
 ### Creating the base images
-The base images can be readily generated using the Time Series Analysis (TSA) submodule of the FORCE Higher Level Processing system (HLPS). 
+The base images can be readily generated using the Time Series Analysis (TSA) submodule of the FORCE Higher Level Processing system (HLPS).
+
+Example parameter file can be found in ``prm`` folder
+
+
+### Create coregistered Sentinel level 2 data
+
+Example parameter file can be found in ``prm`` folder
+
