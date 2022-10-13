@@ -1,0 +1,104 @@
+++PARAM_LEVEL2_START++
+
+# INPUT/OUTPUT DIRECTORIES
+# ------------------------------------------------------------------------
+
+FILE_QUEUE = /ZEDAT/fegeo/data-archive/thueringen/l1_pool.txt
+DIR_LEVEL2 = /ZEDAT/fegeo/data-archive/thueringen/level2/
+DIR_LOG = /ZEDAT/fegeo/data-archive/thueringen/log2/
+DIR_TEMP = /ZEDAT/fegeo/data-archive/thueringen/temp/
+
+# DIGITAL ELEVATION MODEL
+# ------------------------------------------------------------------------
+# Type: full file path
+FILE_DEM = /ZEDAT/fegeo/data-archive/srtm/srtm_germany.vrt
+DEM_NODATA = -32767
+
+# DATA CUBES
+# ------------------------------------------------------------------------
+
+DO_REPROJ = TRUE
+DO_TILE = TRUE
+FILE_TILE = /ZEDAT/fegeo/data-archive/thueringen/tiles.txt
+TILE_SIZE = 30000
+BLOCK_SIZE = 3000
+RESOLUTION_LANDSAT = 30
+RESOLUTION_SENTINEL2 = 10
+ORIGIN_LON = -25
+ORIGIN_LAT = 60
+PROJECTION = PROJCS["ETRS89 / LAEA Europe",GEOGCS["ETRS89",DATUM["European_Terrestrial_Reference_System_1989",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6258"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4258"]],PROJECTION["Lambert_Azimuthal_Equal_Area"],PARAMETER["latitude_of_center",52],PARAMETER["longitude_of_center",10],PARAMETER["false_easting",4321000],PARAMETER["false_northing",3210000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","3035"]]
+RESAMPLING = CC
+
+# RADIOMETRIC CORRECTION OPTIONS
+# ------------------------------------------------------------------------
+DO_ATMO = TRUE
+DO_TOPO = TRUE
+DO_BRDF = TRUE
+ADJACENCY_EFFECT = TRUE
+MULTI_SCATTERING = TRUE
+
+# WATER VAPOR CORRECTION OPTIONS
+# ------------------------------------------------------------------------
+
+DIR_WVPLUT = /ZEDAT/fegeo/data-archive/wvl/wvp-global/
+WATER_VAPOR = NULL
+
+# AEROSOL OPTICAL DEPTH OPTIONS
+# ------------------------------------------------------------------------
+
+DO_AOD  = TRUE
+DIR_AOD  = NULL
+
+# CLOUD DETECTION OPTIONS
+# ------------------------------------------------------------------------
+
+ERASE_CLOUDS = FALSE
+MAX_CLOUD_COVER_FRAME = 75
+MAX_CLOUD_COVER_TILE  = 75
+CLOUD_BUFFER  = 300
+SHADOW_BUFFER = 90
+SNOW_BUFFER   = 30
+CLOUD_THRESHOLD  = 0.225
+SHADOW_THRESHOLD = 0.02
+
+# RESOLUTION MERGING
+# ------------------------------------------------------------------------
+
+RES_MERGE = IMPROPHE
+
+# CO-REGISTRATION OPTIONS
+# ------------------------------------------------------------------------
+
+DIR_COREG_BASE = /ZEDAT/fegeo/data-archive/thueringen/landsat_base_tsa/mosaic
+COREG_BASE_NODATA = -9999
+
+# MISCELLANEOUS OPTIONS
+# ------------------------------------------------------------------------
+
+IMPULSE_NOISE = TRUE
+BUFFER_NODATA = FALSE
+
+# TIER LEVEL
+# ------------------------------------------------------------------------
+TIER = 1
+
+# PARALLEL PROCESSING
+
+NPROC = 16
+NTHREAD = 2
+PARALLEL_READS = FALSE
+DELAY = 3
+TIMEOUT_ZIP = 30
+
+# OUTPUT OPTIONS
+# ------------------------------------------------------------------------
+
+OUTPUT_FORMAT = GTiff
+OUTPUT_DST = TRUE
+OUTPUT_AOD = FALSE
+OUTPUT_WVP = FALSE
+OUTPUT_VZN = FALSE
+OUTPUT_HOT = FALSE
+OUTPUT_OVV = TRUE
+
+++PARAM_LEVEL2_END++
