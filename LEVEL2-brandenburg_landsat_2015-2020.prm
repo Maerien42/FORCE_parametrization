@@ -1,0 +1,168 @@
+++PARAM_LEVEL2_START++
+
+# INPUT/OUTPUT DIRECTORIES
+# ------------------------------------------------------------------------
+
+FILE_QUEUE = /ZEDAT/fegeo/data-archive/brandenburg/l1_base.txt
+DIR_LEVEL2 = /ZEDAT/fegeo/data-archive/brandenburg/landsat_base/
+DIR_LOG = /ZEDAT/fegeo/data-archive/brandenburg/log/
+DIR_TEMP = /ZEDAT/fegeo/data-archive/brandenburg/temp/
+
+# DIGITAL ELEVATION MODEL
+# ------------------------------------------------------------------------
+# Type: full file path
+FILE_DEM = /ZEDAT/fegeo/data-archive/srtm/srtm_germany.vrt
+DEM_NODATA = -32767
+
+# DATA CUBES
+# ------------------------------------------------------------------------
+
+DO_REPROJ = TRUE
+DO_TILE = TRUE
+FILE_TILE = /ZEDAT/fegeo/data-archive/brandenburg/tiles_bb_1.txt
+TILE_SIZE = 30000
+BLOCK_SIZE = 3000
+RESOLUTION_LANDSAT = 30
+RESOLUTION_SENTINEL2 = 10
+ORIGIN_LON = -25
+ORIGIN_LAT = 60
+PROJECTION = PROJCS["ETRS89 / LAEA Europe",GEOGCS["ETRS89",DATUM["European_Terrestrial_Reference_System_1989",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6258"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4258"]],PROJECTION["Lambert_Azimuthal_Equal_Area"],PARAMETER["latitude_of_center",52],PARAMETER["longitude_of_center",10],PARAMETER["false_easting",4321000],PARAMETER["false_northing",3210000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AUTHORITY["EPSG","3035"]]
+RESAMPLING = CC
+
+# RADIOMETRIC CORRECTION OPTIONS
+# ------------------------------------------------------------------------
+DO_ATMO = TRUE
+DO_TOPO = TRUE
+DO_BRDF = TRUE
+ADJACENCY_EFFECT = TRUE
+MULTI_SCATTERING = TRUE
+
+# WATER VAPOR CORRECTION OPTIONS
+# ------------------------------------------------------------------------
+
+DIR_WVPLUT = /ZEDAT/fegeo/data-archive/wvl/wvp-global/
+WATER_VAPOR = NULL
+
+# AEROSOL OPTICAL DEPTH OPTIONS
+# ------------------------------------------------------------------------
+
+DO_AOD  = TRUE
+DIR_AOD  = NULL
+
+# CLOUD DETECTION OPTIONS
+# ------------------------------------------------------------------------
+
+ERASE_CLOUDS = FALSE
+MAX_CLOUD_COVER_FRAME = 75
+MAX_CLOUD_COVER_TILE  = 75
+CLOUD_BUFFER  = 300
+SHADOW_BUFFER = 90
+SNOW_BUFFER   = 30
+CLOUD_THRESHOLD  = 0.225
+SHADOW_THRESHOLD = 0.02
+
+# RESOLUTION MERGING
+# ------------------------------------------------------------------------
+
+RES_MERGE = IMPROPHE
+
+# CO-REGISTRATION OPTIONS
+# ------------------------------------------------------------------------
+# This parameter only applies for Sentinel-2 data. This parameter defines
+# the path to a directory that contains monthly Landsat NIR base images.
+# If given, a co-registration is attempted. If it fails (no tie points),
+# the image won't be processed.
+# Type: full directory path
+DIR_COREG_BASE = NULL
+# This parameter defines the nodata values of the coregistration base images.
+# Type: Integer. Valid values: [-32768,32767]
+COREG_BASE_NODATA = -9999
+
+# MISCELLANEOUS OPTIONS
+# ------------------------------------------------------------------------
+# This parameter defines if impulse noise should be removed. Ony applies
+# to 8bit input data.
+# Type: Logical. Valid values: {TRUE,FALSE}
+IMPULSE_NOISE = TRUE
+# This parameter defines if nodata pixels should be buffered by 1 pixel.
+# Type: Logical. Valid values: {TRUE,FALSE}
+BUFFER_NODATA = FALSE
+
+# TIER LEVEL
+# ------------------------------------------------------------------------
+TIER = 1
+
+# PARALLEL PROCESSING
+# ------------------------------------------------------------------------
+# Multiprocessing options (NPROC, DELAY) only apply when using the batch
+# utility force-level2. They are not used by the core function force-l2ps.
+# ------------------------------------------------------------------------
+# This module is using hybrid parallelization, i.e. a mix of multiprocessing
+# and multithreading. Each input image is one process, each process may use
+# multiple threads. In general, it is most efficient to use as much multi-
+# processing as possible (i.e. NTHREAD = 1 or 2). However, if you only have
+# a small number of images - or if your system does not have enough RAM,
+# it is adviced to use less processes and more threads per process. The
+# number of processes and threads is given by following parameters.
+# Type: Integer. Valid range: [1,...
+NPROC = 16
+NTHREAD = 2
+# This parameter controls whether the individual bands of the Level 1 input
+# images are read sequentially or in parallel. Note that we observed two kinds
+# of GDAL installation: (1) the JPEG driver reads each band parallely, but 
+# separated images in sequence - we recommend to disable PARALLEL_READS in this
+# case (for Sentinel-2). (2) The GDAL JPEG drived does not do anything in 
+# parallel - use PARALLEL_READ to speed up the work (also use it for Landsat).
+# Type: Logical. Valid values: {TRUE,FALSE}
+PARALLEL_READS = FALSE
+# This parameter sets a delay before starting a new process. This can be help-
+# ful to prevent I/O jams when using a lot of processes. The delay is given
+# in seconds.
+# Type: Integer. Valid range: [0,...
+DELAY = 3
+# This parameter sets a timeout for unzipping the Level 1 data (only applies when
+# images are still in zip/tar.gz format. Only applies for force-level2).
+# The timeout is given in seconds.
+# Type: Integer. Valid range: [0,...
+TIMEOUT_ZIP = 30
+
+# OUTPUT OPTIONS
+# ------------------------------------------------------------------------
+# Output format, which is either uncompressed flat binary image format aka
+# ENVI Standard or GeoTiff. GeoTiff images are compressed with LZW and hori-
+# zontal differencing; BigTiff support is enabled; the Tiff is structured 
+# with striped blocks according to the TILE_SIZE (X) and BLOCK_SIZE (Y) speci-
+# fications. Metadata are written to the ENVI header or directly into the Tiff
+# to the FORCE domain. If the size of the metadata exceeds the Tiff's limit,
+# an external .aux.xml file is additionally generated.
+# Type: Character. Valid values: {ENVI,GTiff}
+OUTPUT_FORMAT = GTiff
+# Output the cloud/cloud shadow/snow distance output? Note that this is NOT
+# the cloud mask (which is sitting in the mandatory QAI product). This pro-
+# duct can be used in force-level3; no other higher-level FORCE module is
+# using this.
+# Type: Logical. Valid values: {TRUE,FALSE}
+OUTPUT_DST = TRUE
+# Output Aerosol Optical Depth map for the green band? No higher-level FORCE
+# module is using this.
+# Type: Logical. Valid values: {TRUE,FALSE}
+OUTPUT_AOD = FALSE
+# Output the Water Wapor map? No higher-level FORCE module is using this.
+# Type: Logical. Valid values: {TRUE,FALSE}
+OUTPUT_WVP = FALSE
+# Output the view zenith map? This product can be used in force-level3; no
+# other higher-level FORCE module is using this.
+# Type: Logical. Valid values: {TRUE,FALSE}
+OUTPUT_VZN = FALSE
+# Output the  Haze Optimzed Transformation output? This product can be
+# used in force-level3; no other higher-level FORCE module is using this.
+# Type: Logical. Valid values: {TRUE,FALSE}
+OUTPUT_HOT = FALSE
+# Output overview thumbnails? These are jpegs at reduced spatial resolution,
+# which feature an RGB overview + quality information overlayed (pink: cloud,
+# red: cirrus, cyan: cloud shadow, yellow: snow, orange: saturated, green:
+# subzero reflectance). No higher-level FORCE module is using this.
+# Type: Logical. Valid values: {TRUE,FALSE}
+OUTPUT_OVV = TRUE
+
+++PARAM_LEVEL2_END++
